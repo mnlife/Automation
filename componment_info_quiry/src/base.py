@@ -38,21 +38,21 @@ standard_made_list = [
 def check_store_click(browser, check_address, wait):
     browser.find_element_by_xpath(web_location["xpath_操作"]).click()
     wait.until(lambda ele: ele.find_element_by_partial_link_text(check_address))
-    time.sleep(1)
+    ###time.sleep(1)
     browser.find_element_by_partial_link_text(check_address).click()
     #time.sleep(1)
     
 def store_find(browser, wait):
     wait.until(lambda ele: ele.find_element_by_xpath(web_location["xpath_part_number_inquire"]))
-    time.sleep(1)
+    ###time.sleep(1)
     part_number_t = browser.find_element_by_xpath(web_location["xpath_part_number_inquire"]).text
     making = browser.find_element_by_xpath(web_location["xpath_making"]).text
     on_road = browser.find_element_by_xpath(web_location["xpath_on_road"]).text
     on_store = browser.find_element_by_xpath(web_location["xpath_on_store"]).text
     
-    making = int(making.replace(',', ''))
-    on_road = int(on_road.replace(',', ''))
-    on_store = int(on_store.replace(',', ''))
+    making = (int)(making.replace(',', ''))
+    on_road = (int)(on_road.replace(',', ''))
+    on_store = (int)(on_store.replace(',', ''))
     return part_number_t, making, on_road, on_store
 def add_specification(browser, wait):
     part_number_c = browser.find_element_by_xpath(web_location["xpath_homepage_part_number"]).text
@@ -64,7 +64,7 @@ def add_specification(browser, wait):
     browser.find_element_by_xpath(web_location["xpath_brand_information"]).click()
     #time.sleep(3)
     wait.until(lambda ele: ele.find_element_by_xpath(web_location["xpath_brand_specification"]))
-    time.sleep(1)    
+    ###time.sleep(1)    
     browser.find_element_by_xpath(web_location["xpath_brand_specification"]).click()
         
     wait.until(lambda ele: ele.find_element_by_xpath(web_location["xpath_wait_brand"]))    
@@ -72,12 +72,12 @@ def add_specification(browser, wait):
     supplier_num_str = browser.find_element_by_xpath(web_location["xpath_get_supplier_amount"]).text  
     return part_number_c, description, supplier_num_str
 
-def calc_need_qty(columns, board_qty):
+def calc_need_qty(columns, board_qty, smd_round_up):
     part_number = columns["Part Number"]
     qty = columns["QTY"]
     ref_designer = columns["Ref Designator"]
     if "20001" in part_number or "21003" in part_number:
-        need_part_qty = round(qty * board_qty + 50, -1)
+        need_part_qty = round(qty * board_qty + smd_round_up, -1)
     else:
         need_part_qty = qty * (board_qty)
     return part_number, qty, need_part_qty, ref_designer
